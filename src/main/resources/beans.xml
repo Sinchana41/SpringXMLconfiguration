@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+         http://www.springframework.org/schema/beans
+         https://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!--  Exercise 1: Simple Bean -->
+    <bean id="simpleCar" class="com.example.Car">
+        <property name="model" value="BasicCar" />
+        <property name="engine" ref="basicEngine" />
+    </bean>
+    <bean id="basicEngine" class="com.example.Engine">
+        <property name="type" value="V4" />
+        <property name="horsepower" value="100" />
+    </bean>
+
+    <!-- Exercise 2: Constructor Injection -->
+    <bean id="engineConstructor" class="com.example.Engine">
+        <constructor-arg value="V8" />
+        <constructor-arg value="400" />
+    </bean>
+
+    <bean id="carConstructor" class="com.example.Car">
+        <constructor-arg ref="engineConstructor" />
+    </bean>
+
+    <!--  Exercise 3: Setter Injection -->
+    <bean id="engineSetter" class="com.example.Engine">
+        <property name="type" value="Electric" />
+        <property name="horsepower" value="250" />
+    </bean>
+
+    <bean id="carSetter" class="com.example.Car">
+        <property name="model" value="Tesla Model 3" />
+        <property name="engine" ref="engineSetter" />
+    </bean>
+
+    <!-- Exercise 4: Collection Injection -->
+    <bean id="car1" class="com.example.Car">
+        <property name="model" value="BMW" />
+        <property name="engine" ref="basicEngine" />
+    </bean>
+
+    <bean id="car2" class="com.example.Car">
+        <property name="model" value="Audi" />
+        <property name="engine" ref="engineConstructor" />
+    </bean>
+
+    <bean id="garage" class="com.example.Garage">
+        <property name="cars">
+            <list>
+                <ref bean="car1" />
+                <ref bean="car2" />
+            </list>
+        </property>
+    </bean>
+
+    <!--  Exercise 5: Autowiring by Type -->
+    <bean id="engineAuto" class="com.example.Engine">
+        <property name="type" value="Hybrid" />
+        <property name="horsepower" value="200" />
+    </bean>
+
+    <bean id="carAuto" class="com.example.Car" autowire="byName" />
+
+    <bean id="engine" class="com.example.Engine">
+        <property name="type" value="Diesel Engine - AutoWired by Name" />
+    </bean>
+
+    <!--  Exercise 7: Bean Lifecycle -->
+    <bean id="carLifecycle" class="com.example.Car"
+          init-method="init"
+          destroy-method="destroy">
+        <property name="model" value="LifecycleCar" />
+        <property name="engine" ref="engineAuto" />
+    </bean>
+
+    <!--  Exercise 8: Bean Scope -->
+    <bean id="carPrototype" class="com.example.Car" scope="prototype">
+        <property name="model" value="PrototypeCar" />
+        <property name="engine" ref="basicEngine" />
+    </bean>
+
+</beans>
